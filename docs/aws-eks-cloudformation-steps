@@ -1,0 +1,33 @@
+export EKS_STACK_NAME="eks-demo"
+export EKS_AWS_REGION="eu-central-1"
+export EKS_KEY_PAIR_NAME="my-eks-key"
+
+
+#Only needed at the first creation
+aws ec2 create-key-pair \
+  --region $EKS_AWS_REGION \
+  --key-name $EKS_KEY_PAIR_NAME \
+  --tag-specifications 'ResourceType=key-pair,Tags=[{Key=Name,Value=eks-key-pair},{Key=Project,Value=aws-eks}]' \
+  --output text \
+  --query 'KeyMaterial' > /Users/meb/Desktop/AWS/demo-xchange/cicd-demo/aws-cloudformation/eks.id_rsa
+
+
+aws cloudformation create-stack --stack-name $EKS_STACK_NAME \
+  --region $EKS_AWS_REGION \
+  --template-body file:///Users/meb/Desktop/AWS/demo-xchange/cicd-demo/aws-cloudformation/eks-cloudformation.yaml  \
+  --capabilities CAPABILITY_NAMED_IAM
+
+
+Validating the EKS cluster:
+
+aws eks --region $EKS_AWS_REGION describe-cluster \
+  --name EKS \
+  --query "cluster.status" \
+  --output text
+
+Testing the EKS cluster:
+
+aws eks \
+  --region $EKS_AWS_REGION update-kubeconfig \
+  --name EKS
+

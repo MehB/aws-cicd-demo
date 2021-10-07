@@ -1,0 +1,17 @@
+aws ecr create-repository \
+    --repository-name cicd-demo
+
+Repository URi:
+732156313306.dkr.ecr.eu-central-1.amazonaws.com/cicd-demo
+
+1. Retrieve an authentication token and authenticate your Docker client to your registry.
+aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 732156313306.dkr.ecr.eu-central-1.amazonaws.com
+
+2. Build your Docker image.
+docker build -t cicd-demo .
+
+3. Tag your image so you can push the image to this repository:
+docker tag cicd-demo:latest 732156313306.dkr.ecr.eu-central-1.amazonaws.com/cicd-demo:latest
+
+4. Push your image to ECR:
+docker push 732156313306.dkr.ecr.eu-central-1.amazonaws.com/cicd-demo:latest

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: cicd-demo
+    app.kubernetes.io/version: '1.0.0'
+    app.kubernetes.io/managed-by: kubectl
+  name: cicd-demo-deployment
+  namespace: cicd-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cicd-demo
+  template:
+    metadata:
+      labels:
+        app: cicd-demo
+    spec:
+      containers:
+        - image: 732156313306.dkr.ecr.eu-central-1.amazonaws.com/cicd-demo:latest 
+          imagePullPolicy: Always
+          name: cicd-demo
+          ports:
+            - containerPort: 3000

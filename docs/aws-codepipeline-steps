@@ -1,0 +1,26 @@
+1. Add the below variables as ENV VARs (build project):
+
+AWS_DEFAULT_REGION=eu-central-1
+AWS_CLUSTER_NAME=EKS
+AWS_ACCOUNT_ID=732156313306
+IMAGE_REPO_NAME=cicd-demo
+IMAGE_TAG=latest
+
+2. Create CodeBuildKubectl role in IAM (Already Created):
+./create_iam_role.sh
+
+3. Map the CodeBuildKubectlRole to the EKS cluster and create RBAC access to do any other action on the cluster:
+
+eksctl create iamidentitymapping --cluster EKS --arn arn:aws:iam::732156313306:role/CodeBuildKubectlRole --group system:masters --username CodeBuildKubectlRole
+
+2021-06-23 15:59:24 [ℹ]  eksctl version 0.53.0
+2021-06-23 15:59:24 [ℹ]  using region eu-central-1
+2021-06-23 15:59:24 [ℹ]  adding identity "arn:aws:iam::732156313306:role/CodeBuildKubectlRole" to auth ConfigMap
+
+4. Verify the aws-auth configmap 
+
+➜  aws-iam git:(master) ✗ kubectl get cm -n kube-system
+NAME                                 DATA   AGE
+aws-auth                             2      2d4h
+
+➜  aws-iam git:(master) ✗ kubectl edit cm aws-auth -n kube-system

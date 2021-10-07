@@ -1,0 +1,27 @@
+{
+    "name": "codedeploydemo",
+    "version": "1.0.0",
+    "description": "AWS CI/CD CodeDeploy DEMO - dbi services",
+    "main": "index.js",
+    "directories": {
+      "doc": "docs"
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://git-codecommit.eu-central-1.amazonaws.com/v1/repos/cicd-demo"
+    },
+    "keywords": [
+      "node"
+    ],
+    "author": "Mehdi Bada",
+    "license": "ISC",
+    "dependencies": {
+      "config": "^3.3.3",
+      "express": "^4.17.1",
+      "request": "^2.88.2"
+    }
+  }
+  
